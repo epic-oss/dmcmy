@@ -6,7 +6,7 @@ import Hero from '@/components/shared/Hero'
 import CompanyCard from '@/components/shared/CompanyCard'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { ArrowRight, CheckCircle, Star, Award, Shield, TrendingUp } from 'lucide-react'
+import { ArrowRight, CheckCircle, Star, Award, Shield, TrendingUp, Building2, Calendar, Gift, Briefcase, Crown, Ship, Landmark, Mountain, Heart, Car, Trophy, Users } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: `Best Destination Management Companies in Malaysia ${siteConfig.currentYear} | DMCMY`,
@@ -29,6 +29,7 @@ export default async function HomePage() {
       <Hero
         title={`Find Malaysia's Top DMCs in ${siteConfig.currentYear}`}
         subtitle="Connect with verified Destination Management Companies for your corporate events, MICE, and luxury travel experiences"
+        image="https://images.unsplash.com/photo-1596422846543-75c6fc197f07?w=1920&q=80"
       >
         <Button asChild size="lg" className="bg-gold-gradient hover:shadow-lg hover:shadow-accent/30 text-primary font-bold text-lg px-8 py-6">
           <Link href="/listings">
@@ -66,47 +67,36 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Featured Companies */}
-      <section className="py-16 md:py-20">
-        <div className="container max-w-[1280px] mx-auto px-4 md:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">
-              Featured Destination Management Companies
-            </h2>
-            <div className="h-1 w-24 bg-gold-gradient mx-auto mb-4"></div>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-              Premium DMCs with proven track records in corporate events, MICE, and luxury travel
-            </p>
-          </div>
-
-          {featured.length > 0 ? (
-            <>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {featured.map((company) => (
-                  <CompanyCard key={company.id} company={company} />
-                ))}
-              </div>
-              <div className="text-center mt-12">
-                <Button asChild size="lg" className="bg-gold-gradient hover:shadow-lg hover:shadow-accent/30 text-primary font-bold px-8 py-6 text-lg">
-                  <Link href="/listings">
-                    View All DMCs
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Link>
-                </Button>
-              </div>
-            </>
-          ) : (
-            <div className="text-center py-16">
-              <p className="text-muted-foreground mb-8 text-lg">
-                Featured companies will appear here soon. Browse our directory to discover top DMCs.
+      {/* Featured Companies - Only show if there are featured companies */}
+      {featured.length > 0 && (
+        <section className="py-16 md:py-20">
+          <div className="container max-w-[1280px] mx-auto px-4 md:px-8">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">
+                Featured Destination Management Companies
+              </h2>
+              <div className="h-1 w-24 bg-gold-gradient mx-auto mb-4"></div>
+              <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
+                Premium DMCs with proven track records in corporate events, MICE, and luxury travel
               </p>
-              <Button asChild size="lg" className="bg-gold-gradient hover:shadow-lg text-primary font-bold px-8 py-6">
-                <Link href="/listings">Browse All DMCs</Link>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {featured.map((company) => (
+                <CompanyCard key={company.id} company={company} />
+              ))}
+            </div>
+            <div className="text-center mt-12">
+              <Button asChild size="lg" className="bg-gold-gradient hover:shadow-lg hover:shadow-accent/30 text-primary font-bold px-8 py-6 text-lg">
+                <Link href="/listings">
+                  View All DMCs
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
               </Button>
             </div>
-          )}
-        </div>
-      </section>
+          </div>
+        </section>
+      )}
 
       {/* Browse by Service */}
       <section className="section-alt py-16 md:py-20">
@@ -120,20 +110,38 @@ export default async function HomePage() {
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {serviceCategories.slice(0, 8).map((service) => (
-              <Link key={service.slug} href={`/services/${service.slug}`} className="group">
-                <Card className="p-6 hover:shadow-lg transition-shadow duration-300 h-full bg-white border border-border">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                      <Star className="h-6 w-6 text-primary" />
+            {serviceCategories.slice(0, 8).map((service) => {
+              const iconMap: Record<string, any> = {
+                'corporate-retreats': Building2,
+                'mice': Calendar,
+                'incentive-travel': Gift,
+                'corporate-travel': Briefcase,
+                'luxury-travel': Crown,
+                'cruise': Ship,
+                'cultural-tours': Landmark,
+                'adventure-tourism': Mountain,
+                'wedding-planning': Heart,
+                'transportation': Car,
+                'gala-dinner': Trophy,
+                'conference-management': Users,
+              }
+              const IconComponent = iconMap[service.slug] || Star
+
+              return (
+                <Link key={service.slug} href={`/services/${service.slug}`} className="group">
+                  <Card className="p-6 hover:shadow-lg transition-shadow duration-300 h-full bg-white border border-border">
+                    <div className="flex flex-col items-center text-center">
+                      <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                        <IconComponent className="h-6 w-6 text-primary" />
+                      </div>
+                      <h3 className="font-semibold text-sm leading-tight">
+                        {service.name}
+                      </h3>
                     </div>
-                    <h3 className="font-semibold text-sm leading-tight">
-                      {service.name}
-                    </h3>
-                  </div>
-                </Card>
-              </Link>
-            ))}
+                  </Card>
+                </Link>
+              )
+            })}
           </div>
 
           <div className="text-center mt-8">
@@ -157,21 +165,36 @@ export default async function HomePage() {
           </div>
 
           <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {destinations.slice(0, 12).map((dest, index) => {
-              const gradients = [
-                'from-[#1a365d] to-[#2d4a7c]',
-                'from-[#2d4a7c] to-[#1a365d]',
-                'from-[#0f2038] to-[#1a365d]',
-                'from-[#1a365d] to-[#0f2038]'
-              ]
-              const gradient = gradients[index % gradients.length]
+            {destinations.slice(0, 12).map((dest) => {
+              const destinationImages: Record<string, string> = {
+                'langkawi': 'https://images.unsplash.com/photo-1596422846543-75c6fc197f07?w=600&q=80',
+                'penang': 'https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=600&q=80',
+                'sabah': 'https://images.unsplash.com/photo-1583407723904-0cc8e1a1b1db?w=600&q=80',
+                'cameron-highlands': 'https://images.unsplash.com/photo-1564757297704-1b038d2b438e?w=600&q=80',
+                'melaka': 'https://images.unsplash.com/photo-1548041347-390d89c8e137?w=600&q=80',
+                'kuala-lumpur': 'https://images.unsplash.com/photo-1596422846543-75c6fc197f07?w=600&q=80',
+                'genting-highlands': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80',
+                'tioman': 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600&q=80',
+                'redang': 'https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=600&q=80',
+                'perhentian': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80',
+                'pangkor-laut': 'https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=600&q=80',
+                'port-dickson': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80',
+              }
+              const imageUrl = destinationImages[dest.slug] || 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80'
 
               return (
                 <Link key={dest.slug} href={`/destinations/${dest.slug}`} className="group">
-                  <Card className={`p-5 h-28 hover:shadow-lg transition-shadow duration-300 text-center flex items-center justify-center bg-gradient-to-br ${gradient} border-0`}>
-                    <h3 className="font-semibold text-white text-base">
-                      {dest.name}
-                    </h3>
+                  <Card className="h-32 hover:shadow-lg transition-all duration-300 border-0 rounded-lg overflow-hidden relative">
+                    <div
+                      className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-300"
+                      style={{ backgroundImage: `url(${imageUrl})` }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/30" />
+                    <div className="relative h-full flex items-center justify-center p-4">
+                      <h3 className="font-bold text-white text-base text-center">
+                        {dest.name}
+                      </h3>
+                    </div>
                   </Card>
                 </Link>
               )

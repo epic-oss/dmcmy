@@ -15,7 +15,7 @@ export default function Hero({
     <section
       className="relative py-24 md:py-32 px-4 md:px-8 overflow-hidden"
       style={image ? {
-        backgroundImage: `linear-gradient(135deg, rgba(26, 54, 93, 0.95) 0%, rgba(15, 32, 56, 0.97) 100%), url(${image})`,
+        backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.4) 100%), url(${image})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed'
