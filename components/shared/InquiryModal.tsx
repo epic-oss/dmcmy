@@ -255,6 +255,7 @@ export default function InquiryModal({
                           setSelectedDate(date)
                           handleChange('preferredDates', date ? format(date, 'PPP') : '')
                         }}
+                        defaultMonth={selectedDate}
                         initialFocus
                         disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
                       />
