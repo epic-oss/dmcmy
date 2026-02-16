@@ -19,7 +19,6 @@ export default function PricingPage() {
       <Hero
         title="Pricing for Destination Management Companies"
         subtitle="Choose the plan that fits your business. Start with a free listing or go premium to get more leads"
-        size="default"
       />
 
       {/* Pricing Cards */}

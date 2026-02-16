@@ -67,7 +67,6 @@ export default async function ServicePage({
       <Hero
         title={`${serviceData.name} in Malaysia`}
         subtitle={`Connect with ${total} expert DMC${total !== 1 ? 's' : ''} specializing in ${serviceData.name.toLowerCase()} across Malaysia`}
-        size="default"
       >
         <Button asChild size="lg">
           <Link href="#companies">

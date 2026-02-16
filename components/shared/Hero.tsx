@@ -1,82 +1,46 @@
 import { ReactNode } from 'react'
-import { cn } from '@/lib/utils/cn'
-
-interface HeroProps {
-  title: string
-  subtitle?: string
-  image?: string
-  children?: ReactNode
-  className?: string
-  size?: 'default' | 'large' | 'small'
-}
 
 export default function Hero({
   title,
   subtitle,
   image,
-  children,
-  className,
-  size = 'default'
-}: HeroProps) {
-  const sizeClasses = {
-    small: 'py-12 md:py-16',
-    default: 'py-16 md:py-24',
-    large: 'py-24 md:py-32'
-  }
-
-  const titleSizes = {
-    small: 'text-3xl md:text-4xl',
-    default: 'text-4xl md:text-5xl lg:text-6xl',
-    large: 'text-5xl md:text-6xl lg:text-7xl'
-  }
-
+  children
+}: {
+  title: string
+  subtitle?: string
+  image?: string
+  children?: ReactNode
+}) {
   return (
     <section
-      className={cn(
-        "relative bg-primary text-primary-foreground overflow-hidden",
-        sizeClasses[size],
-        className
-      )}
+      className="relative bg-primary text-primary-foreground py-24 md:py-32 px-4 overflow-hidden"
       style={image ? {
-        backgroundImage: `linear-gradient(rgba(26, 54, 93, 0.88), rgba(26, 54, 93, 0.88)), url(${image})`,
+        backgroundImage: `linear-gradient(135deg, rgba(26, 54, 93, 0.92) 0%, rgba(15, 32, 56, 0.95) 100%), url(${image})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
-      } : undefined}
+        backgroundAttachment: 'fixed'
+      } : {
+        background: 'linear-gradient(135deg, #1a365d 0%, #0f2038 100%)'
+      }}
     >
-      {/* Decorative Elements */}
-      {!image && (
-        <>
-          <div className="absolute top-0 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl"></div>
-        </>
-      )}
+      {/* Decorative elements */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
 
-      <div className="container relative z-10">
-        <div className="max-w-5xl mx-auto text-center">
-          {/* Title */}
-          <h1 className={cn(
-            "font-bold mb-4 md:mb-6 leading-tight",
-            titleSizes[size]
-          )}>
-            {title}
-          </h1>
-
-          {/* Subtitle */}
-          {subtitle && (
-            <p className="text-lg md:text-xl lg:text-2xl mb-8 md:mb-10 text-primary-foreground/90 leading-relaxed max-w-3xl mx-auto">
-              {subtitle}
-            </p>
-          )}
-
-          {/* Children (e.g., search bar, CTA buttons) */}
-          {children && (
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              {children}
-            </div>
-          )}
-        </div>
+      <div className="container max-w-5xl mx-auto text-center relative z-10">
+        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight">
+          {title}
+        </h1>
+        {subtitle && (
+          <p className="text-xl md:text-2xl lg:text-3xl mb-10 text-primary-foreground/90 font-light max-w-4xl mx-auto leading-relaxed">
+            {subtitle}
+          </p>
+        )}
+        {children}
       </div>
+
+      {/* Bottom gradient fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent"></div>
     </section>
   )
 }

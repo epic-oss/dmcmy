@@ -67,7 +67,6 @@ export default async function LocationPage({
       <Hero
         title={`Destination Management Companies in ${stateData.name}`}
         subtitle={`Connect with ${total} verified DMC${total !== 1 ? 's' : ''} specializing in ${stateData.name} events and experiences`}
-        size="default"
       >
         <Button asChild size="lg">
           <Link href="#companies">

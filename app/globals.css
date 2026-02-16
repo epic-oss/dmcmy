@@ -2,32 +2,33 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222 47% 11%;
+    /* Premium DMC Color Palette */
+    --background: 38 10% 98%; /* Warm white #fafaf8 */
+    --foreground: 222 47% 15%; /* Deep navy text */
 
     --primary: 222 47% 24%; /* Deep navy #1a365d */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 38 10% 96%; /* Warm gray */
+    --secondary-foreground: 222 47% 15%;
 
     --accent: 43 44% 58%; /* Gold #d4a854 */
     --accent-foreground: 222 47% 24%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 222 47% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover-foreground: 222 47% 15%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222 47% 24%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 43 44% 58%; /* Gold ring */
 
-    --radius: 0.5rem;
+    --radius: 0.75rem; /* Larger radius for premium feel */
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
@@ -68,5 +69,43 @@
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
+    font-feature-settings: "kern" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+}
+
+/* Premium Gold Gradient */
+@layer utilities {
+  .bg-gold-gradient {
+    background: linear-gradient(135deg, #d4a854 0%, #c49545 100%);
+  }
+
+  .text-gold-gradient {
+    background: linear-gradient(135deg, #d4a854 0%, #c49545 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .premium-badge {
+    background: linear-gradient(135deg, #d4a854 0%, #c49545 100%);
+    box-shadow: 0 4px 12px rgba(212, 168, 84, 0.3);
+  }
+
+  .premium-card {
+    border: 2px solid;
+    border-image: linear-gradient(135deg, #d4a854 0%, #c49545 100%) 1;
+    box-shadow: 0 8px 24px rgba(212, 168, 84, 0.15);
+  }
+
+  .section-alt {
+    background: linear-gradient(180deg, #fafaf8 0%, #f5f5f3 100%);
   }
 }

@@ -4,86 +4,74 @@ import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { MapPin, Star, Award } from 'lucide-react'
 import { Database } from '@/types/database'
-import { cn } from '@/lib/utils/cn'
 
 type Company = Database['public']['Tables']['companies_dmc']['Row']
 
-interface CompanyCardProps {
-  company: Company
-  className?: string
-}
-
-export default function CompanyCard({ company, className }: CompanyCardProps) {
+export default function CompanyCard({ company }: { company: Company }) {
   return (
-    <Link href={`/companies/${company.slug}`} className="block group">
-      <Card className={cn(
-        "overflow-hidden hover:shadow-xl transition-all duration-300 h-full",
-        company.is_premium && "border-2 border-accent ring-2 ring-accent/20",
-        className
-      )}>
+    <Link href={`/companies/${company.slug}`} className="group block h-full">
+      <Card className={`overflow-hidden h-full transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 ${
+        company.is_premium ? 'premium-card bg-white' : 'border border-border hover:border-accent/30 bg-white shadow-md'
+      }`}>
         {/* Premium Badge */}
         {company.is_premium && (
-          <div className="bg-accent text-accent-foreground text-xs font-bold px-4 py-1.5 text-center flex items-center justify-center gap-2">
-            <Award className="h-3.5 w-3.5" />
-            PREMIUM LISTING
+          <div className="premium-badge text-primary-foreground text-xs font-bold px-4 py-2 text-center tracking-wider flex items-center justify-center gap-2">
+            <Award className="h-4 w-4" />
+            PREMIUM PARTNER
           </div>
         )}
 
-        {/* Cover Image or Logo */}
-        <div className="relative h-48 bg-gradient-to-br from-primary/5 to-accent/5">
+        {/* Cover Image */}
+        <div className="relative h-56 bg-gradient-to-br from-primary/5 to-accent/5 overflow-hidden">
           {company.cover_image_url ? (
             <Image
               src={company.cover_image_url}
               alt={company.name}
               fill
-              className="object-cover group-hover:scale-105 transition-transform duration-300"
+              className="object-cover group-hover:scale-105 transition-transform duration-500"
             />
-          ) : company.logo_url ? (
-            <div className="w-full h-full flex items-center justify-center p-8">
-              <Image
-                src={company.logo_url}
-                alt={company.name}
-                width={160}
-                height={80}
-                className="object-contain max-h-24"
-              />
-            </div>
           ) : (
-            <div className="w-full h-full flex items-center justify-center">
-              <span className="text-6xl font-bold text-primary/20">
-                {company.name[0]}
-              </span>
+            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/10 to-accent/10">
+              {company.logo_url ? (
+                <div className="relative w-32 h-32">
+                  <Image
+                    src={company.logo_url}
+                    alt={company.name}
+                    fill
+                    className="object-contain p-4"
+                  />
+                </div>
+              ) : (
+                <div className="text-6xl font-bold text-primary/20">
+                  {company.name[0]}
+                </div>
+              )}
             </div>
           )}
 
-          {/* Featured Badge */}
-          {company.is_featured && (
-            <div className="absolute top-3 right-3">
-              <Badge variant="secondary" className="bg-white/90 backdrop-blur-sm flex items-center gap-1">
-                <Star className="h-3 w-3 fill-accent text-accent" />
-                Featured
-              </Badge>
+          {/* Verified Badge */}
+          {company.is_verified && (
+            <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-sm rounded-full p-2 shadow-lg">
+              <Star className="h-5 w-5 text-accent fill-accent" />
             </div>
           )}
         </div>
 
         {/* Content */}
-        <div className="p-5">
-          {/* Company Name */}
-          <h3 className="font-bold text-lg mb-1.5 line-clamp-1 group-hover:text-accent transition-colors">
+        <div className="p-6">
+          <h3 className="font-bold text-xl mb-2 text-foreground group-hover:text-primary transition-colors line-clamp-1">
             {company.name}
           </h3>
 
-          {/* Tagline */}
           {company.tagline && (
-            <p className="text-sm text-muted-foreground mb-3 line-clamp-2 min-h-[2.5rem]">
+            <p className="text-sm text-muted-foreground mb-4 line-clamp-2 leading-relaxed">
               {company.tagline}
             </p>
           )}
 
           {/* Location */}
           <div className="flex items-center text-sm text-muted-foreground mb-4">
-            <MapPin className="h-4 w-4 mr-1.5 flex-shrink-0" />
+            <MapPin className="h-4 w-4 mr-2 text-accent flex-shrink-0" />
             <span className="line-clamp-1">
               {company.city ? `${company.city}, ${company.state}` : company.state}
             </span>
@@ -91,34 +79,34 @@ export default function CompanyCard({ company, className }: CompanyCardProps) {
 
           {/* Service Categories */}
           {company.service_categories && company.service_categories.length > 0 && (
-            <div className="flex flex-wrap gap-1.5">
-              {company.service_categories.slice(0, 2).map((category) => (
+            <div className="flex flex-wrap gap-2">
+              {company.service_categories.slice(0, 2).map((cat) => (
                 <Badge
-                  key={category}
+                  key={cat}
                   variant="secondary"
-                  className="text-xs font-medium"
+                  className="text-xs font-medium bg-secondary hover:bg-accent/10 transition-colors"
                 >
-                  {category.length > 20 ? category.slice(0, 20) + '...' : category}
+                  {cat}
                 </Badge>
               ))}
               {company.service_categories.length > 2 && (
                 <Badge
-                  variant="outline"
-                  className="text-xs font-medium text-muted-foreground"
+                  variant="secondary"
+                  className="text-xs font-medium bg-accent/10 text-accent-foreground"
                 >
                   +{company.service_categories.length - 2} more
                 </Badge>
               )}
             </div>
           )}
-
-          {/* Established Year (if available) */}
-          {company.established_year && (
-            <div className="mt-3 pt-3 border-t text-xs text-muted-foreground">
-              Established {company.established_year}
-            </div>
-          )}
         </div>
+
+        {/* Hover indicator */}
+        <div className={`h-1 w-full transition-all duration-300 ${
+          company.is_premium
+            ? 'bg-gold-gradient'
+            : 'bg-accent group-hover:bg-primary'
+        }`}></div>
       </Card>
     </Link>
   )

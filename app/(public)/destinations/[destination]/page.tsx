@@ -67,7 +67,6 @@ export default async function DestinationPage({
       <Hero
         title={`${destinationData.name} Destination Management Companies`}
         subtitle={`Expert DMCs specializing in ${destinationData.name} corporate events, MICE, and luxury travel experiences`}
-        size="default"
       >
         <Button asChild size="lg">
           <Link href="#companies">
