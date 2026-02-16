@@ -14,6 +14,9 @@ export const metadata: Metadata = {
   keywords: ["DMC", "destination management company", "Malaysia", "corporate events", "MICE", "incentive travel"],
   authors: [{ name: siteConfig.name }],
   creator: siteConfig.name,
+  verification: {
+    google: "UKP4PCM4yNsbsuF5x08B_Oh92sLBrSa_NmEQruRWGrw",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
