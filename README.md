@@ -21,9 +21,10 @@ A Next.js 14+ directory platform for Destination Management Companies in Malaysi
 - **Framework:** Next.js 14+ (App Router, TypeScript, Server Components)
 - **Styling:** Tailwind CSS + Shadcn UI
 - **Database:** Supabase (PostgreSQL + Auth + RLS)
-- **Payments:** Stripe (subscriptions + webhooks)
 - **Lead Distribution:** Make.com webhook integration
 - **Deployment:** Vercel
+
+> **Note:** Payment/subscription features are not yet implemented. Premium status is currently managed manually via the admin panel.
 
 ## 📁 Project Structure
 
@@ -46,7 +47,6 @@ dmcmy/
 ├── lib/
 │   ├── config.ts         # Site configuration (CRITICAL)
 │   ├── supabase/         # Supabase clients
-│   ├── stripe/           # Stripe utilities
 │   ├── services/         # Data access layer
 │   ├── utils/            # Utility functions
 │   ├── schemas/          # JSON-LD schema generators
@@ -72,12 +72,9 @@ Required variables:
 - `NEXT_PUBLIC_SUPABASE_URL` - **Same as TeamBuildingMY** (Epic Buzz Supabase project)
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY` - **Same as TeamBuildingMY**
 - `SUPABASE_SERVICE_ROLE_KEY` - **Same as TeamBuildingMY** (for admin operations)
-- `STRIPE_SECRET_KEY` - Stripe secret key
-- `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` - Stripe publishable key
-- `STRIPE_WEBHOOK_SECRET` - Stripe webhook secret
-- `STRIPE_PREMIUM_PRICE_ID` - Stripe price ID for premium subscription (RM99/month)
 - `MAKE_WEBHOOK_URL` - Make.com webhook URL for lead distribution
-- `ADMIN_USER_ID` - Your Supabase user ID (add after first signup)
+- `NEXT_PUBLIC_SITE_URL` - Your site URL (http://localhost:3000 for dev)
+- `ADMIN_USER_IDS` - Comma-separated Supabase user IDs for admin access (add after first signup)
 
 ### 2. Database Setup
 
@@ -96,16 +93,7 @@ Required variables:
 
 **Note:** Tables use `_dmc` suffix to coexist with TeamBuildingMY tables (`providers_corporate`, etc.)
 
-### 3. Stripe Setup
-
-1. Create a Stripe account at https://stripe.com
-2. Create a product for "Premium DMC Listing" with monthly recurring price of RM99
-3. Copy the price ID to `STRIPE_PREMIUM_PRICE_ID`
-4. Set up webhook endpoint (after deploying):
-   - URL: `https://your-domain.com/api/webhooks/stripe`
-   - Events: `checkout.session.completed`, `customer.subscription.updated`, `customer.subscription.deleted`
-
-### 4. Make.com Setup
+### 3. Make.com Setup
 
 1. Create a Make.com scenario with a webhook trigger
 2. Copy the webhook URL to `MAKE_WEBHOOK_URL`
@@ -114,7 +102,7 @@ Required variables:
    - Send email to premium vendors (broadcast leads)
    - Send email to specific company (company-specific leads)
 
-### 5. Install Dependencies & Run
+### 4. Install Dependencies & Run
 
 ```bash
 npm install
@@ -151,10 +139,10 @@ Open [http://localhost:3000](http://localhost:3000) to view the site.
 
 ## 🔄 Next Steps (Phase 2-16)
 
-### Phase 2: Data Access Layer (Next)
+### Phase 2: Data Access Layer (COMPLETED)
 - Create service functions for companies, inquiries, claims
 - Build validation schemas with Zod
-- Set up Stripe integration
+- Lead capture with Make.com webhook
 
 ### Phase 3: Core UI Components
 - Install Shadcn UI components
@@ -235,7 +223,6 @@ Open [http://localhost:3000](http://localhost:3000) to view the site.
 - Row Level Security (RLS) on all tables
 - Admin routes protected by user ID check
 - Service role key only used in admin client
-- Stripe webhook signature verification
 - Environment variables for all secrets
 
 ## 📚 Documentation
@@ -265,9 +252,8 @@ npm run lint
 1. Push code to GitHub
 2. Deploy to Vercel
 3. Add environment variables in Vercel dashboard
-4. Set up Stripe webhook endpoint
-5. Test Make.com webhook integration
-6. Submit sitemap to Google Search Console
+4. Test Make.com webhook integration
+5. Submit sitemap to Google Search Console
 
 ---
 
