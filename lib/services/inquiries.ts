@@ -35,20 +35,29 @@ export async function createInquiry(data: {
       company_id: data.companyId,
       full_name: data.fullName,
       email: data.email,
-      phone: data.phone,
-      lead_company: data.leadCompany,
-      event_type: data.eventType,
-      group_size: data.groupSize,
-      preferred_destination: data.preferredDestination,
-      preferred_dates: data.preferredDates,
-      estimated_budget: data.estimatedBudget,
-      special_requirements: data.specialRequirements,
-      message: data.message
+      phone: data.phone || null,
+      lead_company: data.leadCompany || null,
+      event_type: data.eventType || null,
+      group_size: data.groupSize || null,
+      preferred_destination: data.preferredDestination || null,
+      preferred_dates: data.preferredDates || null,
+      estimated_budget: data.estimatedBudget || null,
+      special_requirements: data.specialRequirements || null,
+      message: data.message || null
     })
     .select()
     .single()
 
-  if (error) throw error
+  if (error) {
+    console.error('Supabase insert error:', {
+      code: error.code,
+      message: error.message,
+      details: error.details,
+      hint: error.hint,
+      fullError: error
+    })
+    throw new Error(`Database error: ${error.message} (Code: ${error.code})`)
+  }
 
   // Send to Make.com webhook (async, don't block user)
   if (siteConfig.makeWebhookUrl) {

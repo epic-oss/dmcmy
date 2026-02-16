@@ -42,10 +42,17 @@ export async function submitInquiry(
   } catch (error) {
     console.error('Error submitting inquiry:', error)
 
+    // Log full error details for debugging
     if (error instanceof Error) {
+      console.error('Error details:', {
+        name: error.name,
+        message: error.message,
+        stack: error.stack
+      })
+
       return {
         success: false,
-        error: error.message
+        error: `Submission failed: ${error.message}`
       }
     }
 
