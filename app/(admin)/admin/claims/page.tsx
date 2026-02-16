@@ -25,8 +25,8 @@ export default async function ClaimRequestsPage() {
     `)
     .order('created_at', { ascending: false })
 
-  const pendingClaims = claims?.filter(c => c.status === 'pending') || []
-  const reviewedClaims = claims?.filter(c => c.status !== 'pending') || []
+  const pendingClaims = claims?.filter((c: any) => c.status === 'pending') || []
+  const reviewedClaims = claims?.filter((c: any) => c.status !== 'pending') || []
 
   return (
     <div className="container py-8 max-w-6xl">

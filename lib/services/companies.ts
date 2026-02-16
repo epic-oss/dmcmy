@@ -60,7 +60,7 @@ export async function getPublishedCompanies({
 export async function getCompanyBySlug(slug: string) {
   const supabase = await createClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as any)
     .from('companies_dmc')
     .select('*')
     .eq('slug', slug)
@@ -81,7 +81,7 @@ export async function getCompanyBySlug(slug: string) {
 export async function getFeaturedCompanies(limit = 6) {
   const supabase = await createClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as any)
     .from('companies_dmc')
     .select('*')
     .eq('is_featured', true)
@@ -99,7 +99,7 @@ export async function getFeaturedCompanies(limit = 6) {
 export async function getPremiumCompanies(limit = 12) {
   const supabase = await createClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as any)
     .from('companies_dmc')
     .select('*')
     .eq('is_premium', true)
@@ -118,7 +118,7 @@ export async function incrementViewCount(companyId: string) {
   const supabase = await createClient()
 
   // Call the database function increment_view_count_dmc
-  await supabase.rpc('increment_view_count_dmc', { company_id: companyId })
+  await (supabase as any).rpc('increment_view_count_dmc', { company_id: companyId })
 }
 
 /**
@@ -127,7 +127,7 @@ export async function incrementViewCount(companyId: string) {
 export async function getCompaniesByUserId(userId: string) {
   const supabase = await createClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as any)
     .from('companies_dmc')
     .select('*')
     .eq('claimed_by', userId)
@@ -143,7 +143,7 @@ export async function getCompaniesByUserId(userId: string) {
 export async function getCompanyById(id: string) {
   const supabase = await createClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as any)
     .from('companies_dmc')
     .select('*')
     .eq('id', id)
@@ -163,7 +163,7 @@ export async function getCompanyById(id: string) {
 export async function createCompany(company: CompanyInsert) {
   const supabase = await createClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as any)
     .from('companies_dmc')
     .insert(company)
     .select()
@@ -179,7 +179,7 @@ export async function createCompany(company: CompanyInsert) {
 export async function updateCompany(id: string, updates: CompanyUpdate) {
   const supabase = await createClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as any)
     .from('companies_dmc')
     .update(updates)
     .eq('id', id)
@@ -237,7 +237,7 @@ export async function deleteCompanyAdmin(id: string) {
 export async function searchCompanies(searchTerm: string, limit = 20) {
   const supabase = await createClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as any)
     .from('companies_dmc')
     .select('*')
     .eq('is_published', true)

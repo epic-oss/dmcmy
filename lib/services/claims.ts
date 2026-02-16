@@ -19,7 +19,7 @@ export async function createClaimRequest(data: {
 }) {
   const supabase = await createClient()
 
-  const { data: claimRequest, error } = await supabase
+  const { data: claimRequest, error } = await (supabase as any)
     .from('claim_requests_dmc')
     .insert({
       company_id: data.companyId,
@@ -50,7 +50,7 @@ export async function createClaimRequest(data: {
 export async function getClaimRequestsByUser(userId: string) {
   const supabase = await createClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as any)
     .from('claim_requests_dmc')
     .select(`
       *,
@@ -186,7 +186,7 @@ export async function rejectClaimRequestAdmin(
 export async function isCompanyClaimed(companyId: string) {
   const supabase = await createClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as any)
     .from('companies_dmc')
     .select('is_claimed, claimed_by')
     .eq('id', companyId)
@@ -203,7 +203,7 @@ export async function isCompanyClaimed(companyId: string) {
 export async function hasUserRequestedClaim(companyId: string, userId: string) {
   const supabase = await createClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as any)
     .from('claim_requests_dmc')
     .select('id, status')
     .eq('company_id', companyId)
@@ -221,7 +221,7 @@ export async function hasUserRequestedClaim(companyId: string, userId: string) {
 export async function getClaimRequestById(id: string) {
   const supabase = await createClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as any)
     .from('claim_requests_dmc')
     .select(`
       *,

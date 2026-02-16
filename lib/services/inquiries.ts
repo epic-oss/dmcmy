@@ -28,7 +28,7 @@ export async function createInquiry(data: {
   const supabase = await createClient()
 
   // Insert into inquiries_dmc table
-  const { data: inquiry, error } = await supabase
+  const { data: inquiry, error } = await (supabase as any)
     .from('inquiries_dmc')
     .insert({
       source: data.source,
@@ -80,7 +80,7 @@ export async function createInquiry(data: {
 
       if (response.ok) {
         // Update webhook status
-        await supabase
+        await (supabase as any)
           .from('inquiries_dmc')
           .update({
             webhook_sent_at: new Date().toISOString(),
@@ -94,7 +94,7 @@ export async function createInquiry(data: {
       console.error('Make.com webhook failed:', webhookError)
 
       // Update webhook status to failed
-      await supabase
+      await (supabase as any)
         .from('inquiries_dmc')
         .update({
           webhook_sent_at: new Date().toISOString(),
@@ -115,7 +115,7 @@ export async function createInquiry(data: {
 export async function getInquiriesForCompany(companyId: string) {
   const supabase = await createClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as any)
     .from('inquiries_dmc')
     .select('*')
     .eq('company_id', companyId)
@@ -131,7 +131,7 @@ export async function getInquiriesForCompany(companyId: string) {
 export async function getBroadcastInquiries(limit = 50) {
   const supabase = await createClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as any)
     .from('inquiries_dmc')
     .select('*')
     .eq('source', 'floating_button')
@@ -178,7 +178,7 @@ export async function updateInquiryStatusAdmin(id: string, status: string) {
 export async function getInquiryById(id: string) {
   const supabase = await createClient()
 
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as any)
     .from('inquiries_dmc')
     .select('*')
     .eq('id', id)
@@ -198,7 +198,7 @@ export async function getInquiryById(id: string) {
 export async function getInquiryCountForCompany(companyId: string) {
   const supabase = await createClient()
 
-  const { count, error } = await supabase
+  const { count, error } = await (supabase as any)
     .from('inquiries_dmc')
     .select('*', { count: 'exact', head: true })
     .eq('company_id', companyId)

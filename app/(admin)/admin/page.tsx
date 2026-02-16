@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Building2, MessageSquare, GitPullRequest, Users, Star, Eye, ArrowRight } from 'lucide-react'
+import { Building2, MessageSquare, GitPullRequest, Users, Star, Eye, ArrowRight, Upload } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Admin Dashboard | DMCMY'
@@ -44,7 +44,7 @@ export default async function AdminDashboardPage() {
     .from('companies_dmc')
     .select('view_count')
 
-  const totalViews = viewsData?.reduce((sum, company) => sum + (company.view_count || 0), 0) || 0
+  const totalViews = viewsData?.reduce((sum: number, company: any) => sum + (company.view_count || 0), 0) || 0
 
   const { count: totalUsers } = await supabaseAdmin
     .from('companies_dmc')

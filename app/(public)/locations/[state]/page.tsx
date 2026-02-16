@@ -18,9 +18,10 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params
 }: {
-  params: { state: string }
+  params: Promise<{ state: string }>
 }): Promise<Metadata> {
-  const stateData = malaysianStates.find((s) => s.slug === params.state)
+  const { state } = await params
+  const stateData = malaysianStates.find((s) => s.slug === state)
 
   if (!stateData) {
     return {
@@ -46,9 +47,10 @@ export async function generateMetadata({
 export default async function LocationPage({
   params
 }: {
-  params: { state: string }
+  params: Promise<{ state: string }>
 }) {
-  const stateData = malaysianStates.find((s) => s.slug === params.state)
+  const { state } = await params
+  const stateData = malaysianStates.find((s) => s.slug === state)
 
   if (!stateData) {
     notFound()

@@ -100,7 +100,7 @@ export default async function AdminCompaniesPage({
       {/* Companies List */}
       {companies && companies.length > 0 ? (
         <div className="space-y-4">
-          {companies.map((company) => (
+          {companies.map((company: any) => (
             <Card key={company.id} className="p-6">
               <div className="flex flex-col lg:flex-row lg:items-start gap-6">
                 {/* Company Info */}
@@ -169,7 +169,7 @@ export default async function AdminCompaniesPage({
                   {company.service_categories && company.service_categories.length > 0 && (
                     <div className="mt-3">
                       <div className="flex flex-wrap gap-1.5">
-                        {company.service_categories.slice(0, 3).map((cat) => (
+                        {company.service_categories.slice(0, 3).map((cat: string) => (
                           <Badge key={cat} variant="secondary" className="text-xs">
                             {cat}
                           </Badge>

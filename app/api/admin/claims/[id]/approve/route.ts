@@ -1,24 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
-import { redirect } from 'next/navigation'
 
 const ADMIN_USER_IDS = process.env.ADMIN_USER_IDS?.split(',').map(id => id.trim()) || []
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Check auth
-    const supabase = createClient()
+    const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
 
     if (!user || !ADMIN_USER_IDS.includes(user.id)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const claimId = params.id
+    const { id: claimId } = await params
 
     // Get claim request
     const { data: claim, error: claimError } = await supabaseAdmin
@@ -53,8 +52,9 @@ export async function POST(
 
   } catch (error) {
     console.error('Approve claim error:', error)
+    return NextResponse.json({ error: 'Failed to approve claim' }, { status: 500 })
   }
 
-  // Redirect back to claims page
-  redirect('/admin/claims')
+  // Return success response
+  return NextResponse.redirect(new URL('/admin/claims', request.url))
 }

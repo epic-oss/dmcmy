@@ -41,7 +41,7 @@ const ADMIN_USER_IDS = process.env.ADMIN_USER_IDS?.split(',').map(id => id.trim(
 export async function POST(request: NextRequest) {
   try {
     // Check auth
-    const supabase = createClient()
+    const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
 
     if (!user || !ADMIN_USER_IDS.includes(user.id)) {
@@ -106,7 +106,7 @@ export async function POST(request: NextRequest) {
         let slug = generateSlug(row.name)
 
         // Check for duplicate slug
-        const { data: existing } = await supabaseAdmin
+        const { data: existing } = await (supabaseAdmin as any)
           .from('companies_dmc')
           .select('slug')
           .eq('slug', slug)
@@ -134,7 +134,7 @@ export async function POST(request: NextRequest) {
           : []
 
         // Insert company
-        const { error: insertError } = await supabaseAdmin
+        const { error: insertError } = await (supabaseAdmin as any)
           .from('companies_dmc')
           .insert({
             name: row.name,

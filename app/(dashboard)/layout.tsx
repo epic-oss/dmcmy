@@ -7,7 +7,7 @@ import { LayoutDashboard, Building2, MessageSquare, LogOut, Home } from 'lucide-
 import { Button } from '@/components/ui/button'
 
 export default async function DashboardLayout({ children }: { children: ReactNode }) {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
 

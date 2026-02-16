@@ -18,9 +18,10 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params
 }: {
-  params: { destination: string }
+  params: Promise<{ destination: string }>
 }): Promise<Metadata> {
-  const destinationData = destinations.find((d) => d.slug === params.destination)
+  const { destination } = await params
+  const destinationData = destinations.find((d) => d.slug === destination)
 
   if (!destinationData) {
     return {
@@ -46,9 +47,10 @@ export async function generateMetadata({
 export default async function DestinationPage({
   params
 }: {
-  params: { destination: string }
+  params: Promise<{ destination: string }>
 }) {
-  const destinationData = destinations.find((d) => d.slug === params.destination)
+  const { destination } = await params
+  const destinationData = destinations.find((d) => d.slug === destination)
 
   if (!destinationData) {
     notFound()

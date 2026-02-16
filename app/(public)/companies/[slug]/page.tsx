@@ -11,9 +11,10 @@ import InquiryModalTrigger from './InquiryModalTrigger'
 export async function generateMetadata({
   params
 }: {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }): Promise<Metadata> {
-  const company = await getCompanyBySlug(params.slug)
+  const { slug } = await params
+  const company = await getCompanyBySlug(slug)
 
   if (!company) {
     return {
@@ -40,9 +41,10 @@ export async function generateMetadata({
 export default async function CompanyProfilePage({
   params
 }: {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }) {
-  const company = await getCompanyBySlug(params.slug)
+  const { slug } = await params
+  const company = await getCompanyBySlug(slug)
 
   if (!company) {
     notFound()

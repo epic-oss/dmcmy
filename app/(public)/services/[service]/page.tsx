@@ -18,9 +18,10 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params
 }: {
-  params: { service: string }
+  params: Promise<{ service: string }>
 }): Promise<Metadata> {
-  const serviceData = serviceCategories.find((s) => s.slug === params.service)
+  const { service } = await params
+  const serviceData = serviceCategories.find((s) => s.slug === service)
 
   if (!serviceData) {
     return {
@@ -46,9 +47,10 @@ export async function generateMetadata({
 export default async function ServicePage({
   params
 }: {
-  params: { service: string }
+  params: Promise<{ service: string }>
 }) {
-  const serviceData = serviceCategories.find((s) => s.slug === params.service)
+  const { service } = await params
+  const serviceData = serviceCategories.find((s) => s.slug === service)
 
   if (!serviceData) {
     notFound()

@@ -11,7 +11,7 @@ import { Badge } from '@/components/ui/badge'
 const ADMIN_USER_IDS = process.env.ADMIN_USER_IDS?.split(',').map(id => id.trim()) || []
 
 export default async function AdminLayout({ children }: { children: ReactNode }) {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
   // Check if user is authenticated
