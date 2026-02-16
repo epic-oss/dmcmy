@@ -7,9 +7,13 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { Calendar } from '@/components/ui/calendar'
 import { submitInquiry } from '@/app/actions/inquiries'
 import { eventTypes, budgetRanges, destinations } from '@/lib/config'
-import { CheckCircle, Loader2, Send } from 'lucide-react'
+import { CheckCircle, Loader2, Send, Calendar as CalendarIcon } from 'lucide-react'
+import { format } from 'date-fns'
+import { cn } from '@/lib/utils/cn'
 
 interface InquiryModalProps {
   isOpen: boolean
@@ -44,6 +48,8 @@ export default function InquiryModal({
     message: ''
   })
 
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined)
+
   const handleChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }))
     setError(null)
@@ -76,6 +82,7 @@ export default function InquiryModal({
             specialRequirements: '',
             message: ''
           })
+          setSelectedDate(undefined)
           setIsSuccess(false)
         }, 2500)
       } else {
@@ -226,13 +233,33 @@ export default function InquiryModal({
                 </div>
 
                 <div>
-                  <Label htmlFor="preferredDates">Preferred Dates</Label>
-                  <Input
-                    id="preferredDates"
-                    value={formData.preferredDates}
-                    onChange={(e) => handleChange('preferredDates', e.target.value)}
-                    placeholder="e.g., March 2026"
-                  />
+                  <Label>Preferred Dates</Label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          "w-full justify-start text-left font-normal",
+                          !selectedDate && "text-muted-foreground"
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {selectedDate ? format(selectedDate, "PPP") : <span>Pick a date</span>}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={selectedDate}
+                        onSelect={(date) => {
+                          setSelectedDate(date)
+                          handleChange('preferredDates', date ? format(date, 'PPP') : '')
+                        }}
+                        initialFocus
+                        disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
+                      />
+                    </PopoverContent>
+                  </Popover>
                 </div>
               </div>
 
