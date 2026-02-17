@@ -3,7 +3,7 @@ import { getPublishedCompanies } from '@/lib/services/companies'
 import { malaysianStates, serviceCategories, destinations, siteConfig } from '@/lib/config'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = siteConfig.url
+  const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || siteConfig.url).replace(/\/$/, '')
 
   // Fetch all published companies for company pages
   const { companies } = await getPublishedCompanies({ limit: 1000 })
