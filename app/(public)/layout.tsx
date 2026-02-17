@@ -1,5 +1,6 @@
 import { ReactNode } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import FloatingQuoteButton from "@/components/shared/FloatingQuoteButton"
 import { siteConfig, malaysianStates, serviceCategories } from "@/lib/config"
 import { Facebook, Twitter, Instagram, Linkedin, Mail } from "lucide-react"
@@ -9,8 +10,15 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
     <div className="min-h-screen flex flex-col">
       <header className="bg-primary text-primary-foreground py-4">
         <div className="container flex items-center justify-between">
-          <Link href="/" className="text-2xl font-bold hover:text-accent transition-colors">
-            DMCMY
+          <Link href="/" className="flex items-center gap-2 hover:opacity-90 transition-opacity">
+            <Image
+              src="/logo/dmcmylogo.png"
+              alt="DMCMY"
+              width={36}
+              height={36}
+              className="w-9 h-9"
+            />
+            <span className="text-2xl font-bold">DMCMY</span>
           </Link>
           <nav className="flex gap-6">
             <Link href="/listings" className="hover:text-accent transition-colors">
